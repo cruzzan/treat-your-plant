@@ -1,22 +1,22 @@
 package main
 
 import (
-	"github.com/jmoiron/sqlx"
-	log "github.com/sirupsen/logrus"
+	"github.com/cruzzan/treat-your-plant/internal/pkg/store/postgres"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	log.SetFormatter(&log.JSONFormatter{PrettyPrint: true})
-	log.SetLevel(log.DebugLevel)
+	log := logrus.New()
+	log.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true})
+	log.SetLevel(logrus.DebugLevel)
 
 	log.Info("Hello, i have nothing to show you yet :(")
 
 	dbUrl := "We don't have one yet..."
 
-	db, err := sqlx.Open("postgres", dbUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
-	db.SetMaxOpenConns(10)
+	_, err := postgres.New(dbUrl, 10, log)
 
+	if err != nil {
+		log.WithError(err).Fatal("Could not set up storage")
+	}
 }
