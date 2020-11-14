@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=treat-your-plant
+    ports:
+      - "5432:5432"
+    networks:
+      - dbn
+
+
+networks:
+  dbn:
+    driver: bridge
+    attachable: true
